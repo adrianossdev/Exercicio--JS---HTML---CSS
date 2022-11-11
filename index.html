@@ -1,0 +1,274 @@
+<html>
+ <head>
+<meta charset="UTF-8">
+<title>MEI GRÁTIS</title>
+<!-- VUE -->
+<script src="js/vue.js"></script>
+
+<!--CSS-->
+<link href="css/estilo.css" rel="stylesheet">
+<!--Fontawesome-->
+<script src="https://kit.fontawesome.com/6bfeba288c.js" crossorigin="anonymous"></script>
+ </head>
+ <body> 
+<!--Início Listagem produtos-->
+<div id="app"  >
+<div id="page" v-if="etapa == 1">
+    <div class="fundo" >
+        <br>
+    <div class="top">
+        <h2>Estoque <i class="fa-sharp fa-solid fa-magnifying-glass search"></i></h2>
+    </div>
+    <hr>
+    <div class="produto" id="lista" >
+    </div>
+    <div class="adicionar">
+        <h1><a href="#"><i class="fa-solid fa-plus" @click="abrirCad()"></i></a></h1>
+    </div>
+</div>
+
+</div>
+<!--Fim Listagem produtos-->
+<!--Início Cadastro produtos nome-->
+<div class="prod_bg" v-if="etapa==2">
+    <div class="caixa">
+    <h1>Defina o nome do seu produto</h1>
+    <p>Escolha um nome para você e seu cliente poderem identificá-lo</p>
+    <input type="text" id="nomeProduto" v-model="inputNome" >
+    <label for="nomeProduto"></label>
+    </div>
+    <br>
+    <hr style="background-color:white;height: 5px;border: none;">
+    <a href="#" class="continuar" @click="continuar()"><h1>CONTINUAR</h1></a>
+</div>
+<!--Fim Cadastro produtos - nome-->
+<!--Início Cadastro produtos quantidade-->
+<div class="prod_bg" v-if="etapa==3">
+    <div class="caixa">
+        <h1>Escreva quantos produtos você tem no estoque</h1>
+        <p>A quantidade ficará armazenada para você controlar o seu estoque</p>
+        <input type="text" id="qtdProduto" v-model="inputQuantidade">
+        <label for="qtdProduto"></label>
+    </div>
+        <br>
+        <hr style="background-color:white;height: 5px;border: none;">
+        <a href="#" class="continuar" @click="continuar()" ><h1>CONTINUAR</h1></a>
+</div>
+<!--Fim Cadastro produtos - quantidade-->
+<!--Inicio Cadastro produtos - descrição-->
+<div class="prod_bg" v-if="etapa==4">
+    <div class="caixa">
+    <h1>Descreva seu produto</h1>
+    <p>Coloque detalhes sobre o que está sendo oferecido</p>
+    <input type="text" id="descProduto" v-model="inputDescricao">
+    <label for="descProduto"></label>
+    </div>
+    <br>
+    <hr style="background-color:white;height: 5px;border: none;">
+    <a href="#" class="continuar" @click="continuar()"><h1>CONTINUAR</h1></a>
+</div>
+<!--Fim Cadastro produtos - descrição-->
+<!--Início Cadastro produtos - categorias-->
+<div class="prod_bg" v-if="etapa==5">
+    <div class="caixa">
+    <h1>Adicione as categorias</h1>
+    <p>Separar os produtos em categorias pode facilitar a sua organização e ajuda os clientes encontrarem o que querem.</p>
+    <input type="text" id="catProduto" v-model="inputCategoria">
+    <label for="catProduto"></label>
+    </div>
+    <br>
+    <hr style="background-color:white;height: 5px;border: none;">
+    <a href="#" class="continuar" @click="continuar()"><h1>CONTINUAR</h1></a>
+</div>
+<!--Fim Cadastro produtos - categorias-->
+<!--Início Cadastro produtos - foto-->
+<div class="prod_bg" v-if="etapa==6">
+    <div class="caixa">
+    <h1>Adicione uma foto do seu produto</h1>
+    <p>As fotos dos produtos aparecem para seus clientes em sua loja. É uma boa forma de mostrar o que você está oferecendo.</p>
+    <input type="text" id="fotoProduto" v-model="inputFoto">
+    <label for="fotoProduto"></label>
+    </div>
+    <br>
+    <hr style="background-color:white;height: 5px;border: none;">
+    <a href="#" class="continuar" @click="continuar()"><h1>CONTINUAR</h1></a>
+</div>
+<!--Fim Cadastro produtos - foto-->
+<!--Início Cadastro produtos - valor-->
+<div class="prod_bg" v-if="etapa==7">
+    <div class="caixa">
+    <h1>Defina o valor de venda</h1>
+    <p>Para escolher o valor que será cobrado é importante você saber o custo do seu produto e o lucro que você pretende obter.</p>
+    <input type="text" id="vlrProduto" v-model="inputValor">
+    <label for="vlrProduto"></label>
+    </div>
+    <br>
+    <hr style="background-color:white;height: 5px;border: none;">
+    <a href="#" class="continuar" @click="cadastrar()" ><h1>CONTINUAR</h1></a>
+ 
+  </div>
+<!--Fim Cadastro produtos - valor-->
+<!--Início show produto-->
+<div v-if="etapa==8">
+<div class="tituloProduto" >
+    <div class="menu">
+        <div class="menuLeft">
+        <a href="#"><i class="fa-solid fa-xmark fa-2x icone" @click="voltar()"></i></a>
+        </div>
+        <div class="menuRight">
+        <a href="#" style="padding-right:2em;" @click="excluir()"><i class="fa-solid fa-trash fa-2x icone"></i></a>
+        <a href="#"><i class="fa-sharp fa-solid fa-pen fa-2x icone"></i></a>
+        </div>
+    </div>
+    <br>
+    <img>
+    <h2><span>{{prod}}</span></h2>
+   </div>
+<div class="conteudo">
+    <h4>Estoque</h4>
+    <b>{{qtd}}</b>
+    <h4>Categorias</h4>
+    <b>{{cat}}</b>
+    <h4>Valor de venda</h4>
+    <b>{{valor}}</b>
+    <h4>Descrição</h4>
+    <b>{{desc}}</b>
+   </div>
+</div>
+<!--Fim show produto-->
+</div> <!--Fim app-->
+<script>
+    const vm  = new Vue({
+        el: '#app,#delete',
+
+        mounted:function(){
+            this.listar()
+        },
+        data: {
+            etapa: 1,
+            inputNome: '',
+            inputQuantidade: '',
+            inputDescricao: '',
+            inputCategoria: '',
+            inputFoto: '',
+            inputValor: '',
+            X: '',
+            produtoObject: '',
+            e: '',
+            prod: '',
+            qtd: '',
+            desc: '',
+            cat: '',
+            foto: '',
+            valor: '',
+            item: ''
+        },
+        computed:{
+            
+        },
+        methods:{
+            voltar(){
+                window.location.reload(true)
+            },
+            abrirCad(){
+                this.etapa=2
+            },            
+            continuar(){                
+                if(this.etapa==2 && this.inputNome!= ''){
+                    this.etapa = 3
+                    console.log(this.inputNome)
+                }else if(this.etapa==3 && this.inputQuantidade!= ''){
+                    this.etapa = 4
+                    console.log(this.inputQuantidade)
+                }else if(this.etapa==4 && this.inputDescricao!= ''){
+                    this.etapa = 5
+                    console.log(this.inputDescricao)
+                }else if(this.etapa==5 && this.inputCategoria!= ''){
+                    this.etapa = 6
+                    console.log(this.inputCategoria)
+                }else if(this.etapa==6 && this.inputFoto!= ''){
+                    this.etapa = 7
+                    console.log(this.inputFoto)
+                }
+                else
+                    alert('O campo precisa ser preenchido!')
+                
+            },
+            cadastrar(){   
+            if(this.inputValor != ''){
+
+             const keys = Object.keys(localStorage)       
+            if(keys.length == 0){
+                const produto = {
+                    nome: this.inputNome,
+                    quantidade: this.inputQuantidade,
+                    descricao: this.inputDescricao,
+                    categoria: this.inputCategoria,
+                    foto: this.inputFoto,
+                    valor: this.inputValor,
+                }  
+               localStorage.setItem(keys.length+1, JSON.stringify(produto))
+            }else if(keys.length > 0){
+                const produto = {
+                    nome: this.inputNome,
+                    quantidade: this.inputQuantidade,
+                    descricao: this.inputDescricao,
+                    categoria: this.inputCategoria,
+                    foto: this.inputFoto,
+                    valor: this.inputValor,
+                }  
+               localStorage.setItem(keys.length+1, JSON.stringify(produto))
+            }
+            this.etapa=1
+
+            window.location.reload(true)
+
+            }else
+            alert('O campo precisa ser preenchido!')    
+           
+            },
+            listar(){
+             const keys = Object.keys(localStorage) 
+                    
+             for(var i = 1; i<=keys.length; i++){
+                        var getProduto = localStorage.getItem(i)
+                        const produtoObject = JSON.parse(getProduto)
+                        var divDescricao = document.createElement('div');
+                        divDescricao.innerHTML = "<div class='descricao'><h3><span class='nomeProduto' id='nmprd'>"+produtoObject.nome+"</span><span class='qtd'>"+produtoObject.quantidade+"</span></h3><span class='situacaoEstoque'>Estoque baixo</span><p>"+produtoObject.descricao+"</p></div><hr></div>"
+                        var lista = document.getElementById('lista')
+                        divDescricao.id = i
+                        lista.appendChild(divDescricao)
+
+                        let abrir = document.getElementById(i)
+                        
+                        divDescricao.addEventListener('click', (e)=>{
+                        this.show(e.path[3].id)
+                       })
+                        
+                        }
+                    
+                },
+                show(e){
+                   
+                   console.log('Produto selecionado: '+e)
+                   var getProduto = localStorage.getItem(e)
+                    const produtoObject = JSON.parse(getProduto)
+                    this.prod = produtoObject.nome
+                    this.qtd = produtoObject.quantidade
+                    this.desc = produtoObject.descricao
+                    this.cat = produtoObject.categoria,
+                    this.foto = produtoObject.foto,
+                    this.valor = produtoObject.valor,
+                   this.item = e
+                   this.etapa = 8                             
+                },
+               excluir(){
+                    localStorage.removeItem(this.item)
+                    window.location.reload(true)
+                } 
+
+        }        
+})
+</script>
+ </body>   
+</html>
